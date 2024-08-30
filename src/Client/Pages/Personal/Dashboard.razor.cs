@@ -11,9 +11,9 @@ namespace FSH.BlazorWebAssembly.Client.Pages.Personal;
 public partial class Dashboard
 {
     [Parameter]
-    public int ProductCount { get; set; }
+    public int PlayerCount { get; set; }
     [Parameter]
-    public int BrandCount { get; set; }
+    public int TeamCount { get; set; }
     [Parameter]
     public int UserCount { get; set; }
     [Parameter]
@@ -48,8 +48,8 @@ public partial class Dashboard
                 Snackbar)
             is StatsDto statsDto)
         {
-            ProductCount = statsDto.ProductCount;
-            BrandCount = statsDto.BrandCount;
+            PlayerCount = statsDto.PlayerCount;
+            TeamCount = statsDto.TeamCount;
             UserCount = statsDto.UserCount;
             RoleCount = statsDto.RoleCount;
             foreach (var item in statsDto.DataEnterBarChart)
