@@ -32,8 +32,8 @@ public partial class NavMenu
         _canViewDashboard = await AuthService.HasPermissionAsync(user, FSHAction.View, FSHResource.Dashboard);
         _canViewRoles = await AuthService.HasPermissionAsync(user, FSHAction.View, FSHResource.Roles);
         _canViewUsers = await AuthService.HasPermissionAsync(user, FSHAction.View, FSHResource.Users);
-        _canViewTeams = await AuthService.HasPermissionAsync(user, FSHAction.View, FSHResource.Products);
-        _canViewGames = await AuthService.HasPermissionAsync(user, FSHAction.View, FSHResource.Brands);
+        _canViewTeams = await AuthService.HasPermissionAsync(user, FSHAction.View, FSHResource.Teams);
+        _canViewGames = await AuthService.HasPermissionAsync(user, FSHAction.View, FSHResource.Games);
         _canViewTenants = await AuthService.HasPermissionAsync(user, FSHAction.View, FSHResource.Tenants);
     }
 }

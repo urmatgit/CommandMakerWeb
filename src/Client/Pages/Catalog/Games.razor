@@ -1,0 +1,60 @@
+﻿@page "/catalog/games"
+@attribute [MustHavePermission(FSHAction.View, FSHResource.Games)]
+
+@inject IStringLocalizer<Games> L
+@inject IGamesClient GamesClient
+
+<FshTitle Title="@L["Games"]" Description="@L["Manage Games."]" />
+
+<EntityTable TEntity="GameDto" TId="Guid" TRequest="UpdateGameRequest" Context="@Context">
+
+    <EditFormContent>
+        @if (!Context.AddEditModal.IsCreate)
+        {
+            <MudItem xs="12" md="6">
+                <MudTextField Value="context.Id" ReadOnly DisableUnderLine Label="@L[$"Game Id"]" />
+            </MudItem>
+        }
+        <MudItem xs="12" md="6">
+            <MudTextField T="string" For="@(() => context.Name)" @bind-Value="context.Name" Label="@L["Name"]" />
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudDatePicker  For="@(() => context.DateTime)" @bind-Value="context.DateTime"  DateFormat="dd.MM.yyyy" Label="@L["Date"]" />
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudTimePicker For="@(() => context.Time)" @bind-Value="context.Time"  TimeFormat="h:mm" Label="@L["Time"]" />
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudTextField For="@(() => context.Description)" @bind-Value="context.Description"
+                          Label="@L["Description"]" />
+        </MudItem>
+    </EditFormContent>
+
+</EntityTable>
+
+@code
+{
+    protected EntityServerTableContext<GameDto, Guid, UpdateGameRequest> Context { get; set; } = default!;
+
+    protected override void OnInitialized() =>
+        Context = new(
+            entityName: L["Game"],
+            entityNamePlural: L["Games"],
+            entityResource: FSHResource.Games,
+            fields: new()
+                {
+                new(brand => brand.Id, L["Id"], "Id"),
+                new(brand => brand.Name, L["Name"], "Name"),
+                new(brand => brand.DateTime , L["Datetime"], "Datetime"),
+                new(brand => brand.Time , L["Time"], "Time"),
+                new(brand => brand.Description, L["Description"], "Description"),
+                },
+            idFunc: brand => brand.Id,
+            searchFunc: async filter => (await GamesClient
+                .SearchAsync(filter.Adapt<SearchGamesRequest>()))
+                .Adapt<PaginationResponse<GameDto>>(),
+            createFunc: async brand => await GamesClient.CreateAsync(brand.Adapt<CreateGameRequest>()),
+            updateFunc: async (id, brand) => await GamesClient.UpdateAsync(id, brand),
+            deleteFunc: async id => await GamesClient.DeleteAsync(id),
+            exportAction: string.Empty);
+}

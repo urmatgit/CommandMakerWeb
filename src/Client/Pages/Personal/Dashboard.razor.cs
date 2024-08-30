@@ -15,6 +15,8 @@ public partial class Dashboard
     [Parameter]
     public int TeamCount { get; set; }
     [Parameter]
+    public int GameCount { get; set; }
+    [Parameter]
     public int UserCount { get; set; }
     [Parameter]
     public int RoleCount { get; set; }
@@ -52,6 +54,7 @@ public partial class Dashboard
             TeamCount = statsDto.TeamCount;
             UserCount = statsDto.UserCount;
             RoleCount = statsDto.RoleCount;
+            GameCount = statsDto.GameCount;
             foreach (var item in statsDto.DataEnterBarChart)
             {
                 _dataEnterBarChartSeries

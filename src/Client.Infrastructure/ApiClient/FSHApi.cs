@@ -7255,6 +7255,9 @@ namespace FSH.BlazorWebAssembly.Client.Infrastructure.ApiClient
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class StatsDto
     {
+        [Newtonsoft.Json.JsonProperty("gameCount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int GameCount { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("playerCount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int PlayerCount { get; set; } = default!;
 
@@ -7324,8 +7327,12 @@ namespace FSH.BlazorWebAssembly.Client.Infrastructure.ApiClient
         [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? Description { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("dateTime", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTime DateTime { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("dateTime", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTime? DateTime { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("time", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"^([0-9]{1}|(?:0[0-9]|1[0-9]|2[0-3])+):([0-5]?[0-9])(?::([0-5]?[0-9])(?:.(\d{1,9}))?)?$")]
+        public string? Time { get; set; } = default!;
 
     }
 
@@ -7414,7 +7421,11 @@ namespace FSH.BlazorWebAssembly.Client.Infrastructure.ApiClient
         public string? Description { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("dateTime", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTime DateTime { get; set; } = default!;
+        public System.DateTime? DateTime { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("time", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"^([0-9]{1}|(?:0[0-9]|1[0-9]|2[0-3])+):([0-5]?[0-9])(?::([0-5]?[0-9])(?:.(\d{1,9}))?)?$")]
+        public TimeSpan? Time { get; set; } = default!;
 
     }
 
@@ -7432,7 +7443,11 @@ namespace FSH.BlazorWebAssembly.Client.Infrastructure.ApiClient
         public string? Description { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("dateTime", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTime DateTime { get; set; } = default!;
+        public System.DateTime? DateTime { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("time", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"^([0-9]{1}|(?:0[0-9]|1[0-9]|2[0-3])+):([0-5]?[0-9])(?::([0-5]?[0-9])(?:.(\d{1,9}))?)?$")]
+        public TimeSpan? Time { get; set; } = default!;
 
     }
 
