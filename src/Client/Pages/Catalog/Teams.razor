@@ -1,0 +1,81 @@
+﻿@page "/catalog/teams"
+@attribute [MustHavePermission(FSHAction.View, FSHResource.Teams)]
+
+@inject IStringLocalizer<Teams> L
+@inject ITeamsClient TeamsClient
+
+<FshTitle Title="@L["Teams"]" Description="@L["Manage Teams."]" />
+
+<EntityTable TEntity="TeamDto" TId="Guid" TRequest="UpdateTeamRequest" Context="@Context">
+
+    <EditFormContent>
+        @if (!Context.AddEditModal.IsCreate)
+        {
+            <MudItem xs="12" md="6">
+                <MudTextField Value="context.Id" ReadOnly DisableUnderLine Label="@L[$"Team Id"]" />
+            </MudItem>
+        }
+        <MudItem xs="12" md="6">
+            <MudTextField T="string" For="@(() => context.Name)" @bind-Value="context.Name" Label="@L["Name"]" />
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudTextField T="string" For="@(() => context.Captain)" @bind-Value="context.Captain" Label="@L["Captain"]" />
+        </MudItem>
+         <MudItem xs="12" md="6">
+            <GameAutocomplete For="@(() => context.GameId)" @bind-Value="context.GameId" AnchorOrigin="Origin.BottomLeft"
+                               TransformOrigin="Origin.TopLeft" />
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudTextField For="@(() => context.Description)" @bind-Value="context.Description"
+                          Label="@L["Description"]" />
+        </MudItem>
+    </EditFormContent>
+
+</EntityTable>
+
+@code
+{
+    
+   
+
+
+    protected EntityServerTableContext<TeamDto, Guid, UpdateTeamRequest> Context { get; set; } = default!;
+
+    protected override void OnInitialized() =>
+        Context = new(
+            entityName: L["Team"],
+            entityNamePlural: L["Teams"],
+            entityResource: FSHResource.Teams,
+            fields: new()
+                {
+                new(brand => brand.Id, L["Id"], "Id"),
+                new(brand => brand.Name, L["Name"], "Name"),
+                new(brand => brand.Captain, L["Captain"], "Captain"),
+                new(brand => brand.GameName, L["Game"], "Game",Template: GameLinkFieldTemplate),
+                new(brand => brand.Description, L["Description"], "Description"),
+                },
+            idFunc: brand => brand.Id,
+            searchFunc: async filter => (await TeamsClient
+                .SearchAsync(filter.Adapt<SearchTeamsRequest>()))
+                .Adapt<PaginationResponse<TeamDto>>(),
+            createFunc: async brand => await TeamsClient.CreateAsync(brand.Adapt<CreateTeamRequest>()),
+            updateFunc: async (id, brand) => await TeamsClient.UpdateAsync(id, brand),
+            deleteFunc: async id => await TeamsClient.DeleteAsync(id),
+            exportAction: string.Empty);
+}
+@code{
+
+
+    // [Inject]
+    // private ISnackbar Snackbar { get; set; } = default!;
+    private RenderFragment<TeamDto> GameLinkFieldTemplate => rate => __builder =>
+            {
+                <MudLink  onclick="@(()=>OpenGameInfo(rate))" >@rate.GameName</MudLink>
+            };
+    private void OpenGameInfo(TeamDto teamDto)
+    {
+        Snackbar.Add(teamDto.GameName, Severity.Info);
+        Games games =new Games();
+        games.ShowGameDialog(Snackbar);
+    }
+}
