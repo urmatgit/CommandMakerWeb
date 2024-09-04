@@ -22,7 +22,7 @@ public partial class AddEditModal<TRequest> : IAddEditModal<TRequest>
     [EditorRequired]
     public string Title { get; set; } = default!;
     [Parameter]
-    public bool IsCreate { get; set; }
+    public bool? IsCreate { get; set; } = false;
     [Parameter]
     public string? SuccessMessage { get; set; }
 

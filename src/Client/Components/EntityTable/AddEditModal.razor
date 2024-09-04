@@ -7,7 +7,9 @@
 
         <TitleContent>
             <MudText Typo="Typo.h6">
-                @if (IsCreate)
+                @if (IsCreate==null){
+                    <MudIcon Icon="@Icons.Material.Filled.Preview" Class="mr-3 mb-n1" />
+                }else if (IsCreate==true)
                 {
                     <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
                 }
@@ -30,10 +32,13 @@
         </DialogContent>
 
         <DialogActions>
+            @if (IsCreate is not null)
+            {
             <MudButton DisableElevation Variant="Variant.Filled" StartIcon="@Icons.Filled.Cancel" OnClick="MudDialog.Cancel">
                 @L["Cancel"]
             </MudButton>
-            @if (IsCreate)
+            
+            @if (IsCreate==true)
             {
                 <MudButton DisableElevation Variant="Variant.Filled" StartIcon="@Icons.Filled.Save" ButtonType="ButtonType.Submit" Color="Color.Success">
                     @L["Save"]
@@ -43,6 +48,11 @@
             {
                 <MudButton DisableElevation Variant="Variant.Filled" StartIcon="@Icons.Filled.Update" ButtonType="ButtonType.Submit" Color="Color.Secondary">
                     @L["Update"]
+                </MudButton>
+            }
+            }else {
+                <MudButton DisableElevation Variant="Variant.Filled" StartIcon="@Icons.Filled.Close" OnClick="MudDialog.Cancel">
+                    @L["Close"]
                 </MudButton>
             }
         </DialogActions>

@@ -1,9 +1,11 @@
 ﻿
 using FSH.BlazorWebAssembly.Client.Components.EntityTable;
 using FSH.BlazorWebAssembly.Client.Infrastructure.ApiClient;
+using FSH.BlazorWebAssembly.Client.Shared;
 using FSH.WebApi.Shared.Authorization;
 using Mapster;
 using MudBlazor;
+using static MudBlazor.CategoryTypes;
 
 namespace FSH.BlazorWebAssembly.Client.Pages.Catalog;
 public partial class Games
@@ -35,4 +37,5 @@ public partial class Games
         snack.Add("Open game dialg", Severity.Info);
         Context.AddEditModal.ForceRender();
     }
+    
 }

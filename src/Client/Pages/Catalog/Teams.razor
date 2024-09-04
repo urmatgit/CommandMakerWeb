@@ -3,13 +3,13 @@
 
 @inject IStringLocalizer<Teams> L
 @inject ITeamsClient TeamsClient
-
+@inject IGamesClient GamesClient
 <FshTitle Title="@L["Teams"]" Description="@L["Manage Teams."]" />
 
 <EntityTable TEntity="TeamDto" TId="Guid" TRequest="UpdateTeamRequest" Context="@Context">
 
     <EditFormContent>
-        @if (!Context.AddEditModal.IsCreate)
+        @if (Context.AddEditModal.IsCreate==false)
         {
             <MudItem xs="12" md="6">
                 <MudTextField Value="context.Id" ReadOnly DisableUnderLine Label="@L[$"Team Id"]" />
@@ -72,10 +72,28 @@
             {
                 <MudLink  onclick="@(()=>OpenGameInfo(rate))" >@rate.GameName</MudLink>
             };
-    private void OpenGameInfo(TeamDto teamDto)
+    private async Task OpenGameInfo(TeamDto teamDto)
     {
-        Snackbar.Add(teamDto.GameName, Severity.Info);
-        Games games =new Games();
-        games.ShowGameDialog(Snackbar);
+        //Snackbar.Add(teamDto.GameName, Severity.Info);
+        
+        var model = new GameDto();
+        string title = L["View"];
+        if (await ApiHelper.ExecuteCallGuardedAsync(
+               () => GamesClient.GetAsync(teamDto.GameId), Snackbar)
+           is GameDto response)
+        {
+            model = response;
+        }
+
+
+        var result = await DialogService.ShowModalAsync<GameViewDialog>(new()
+        {
+            
+            { nameof(GameViewDialog.GameDtoModel), model },
+            { nameof(GameViewDialog.Caption), title }
+
+        });
+
+         
     }
 }

@@ -1,0 +1,32 @@
+﻿@inject IStringLocalizer<Games> L
+<AddEditModal RequestModel="GameDtoModel"   @ref="addeditModel"  IsCreate="@IsCreate" Title="@Caption">
+    <MudGrid>
+        <MudItem xs="12" md="6">
+            <MudTextField T="string" For="@(() => context.Name)" @bind-Value="context.Name" Label="@L["Name"]" />
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudDatePicker For="@(() => context.DateTime)" @bind-Date="context.DateTime" DateFormat="dd.MM.yyyy" Label="@L["Date"]" />
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudTimePicker For="@(() => context.TimeGame)" @bind-Time="context.TimeGame" Label="@L["Time"]" />
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudTextField For="@(() => context.Description)" @bind-Value="context.Description"
+                          Label="@L["Description"]" />
+        </MudItem>
+    </MudGrid>
+</AddEditModal>
+
+@code {
+     
+    
+    [Parameter]
+    public string Caption { get; set; } = default!;
+    [Parameter]
+    public bool? IsCreate { get; set; } = null;
+    [Parameter]
+    [EditorRequired]
+    public GameDto GameDtoModel { get; set; } = default!;
+    private AddEditModal<GameDto> addeditModel = default!;
+    
+    }

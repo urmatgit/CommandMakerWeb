@@ -9,7 +9,7 @@
 <EntityTable TEntity="GameDto" TId="Guid" TRequest="UpdateGameRequest" Context="@Context">
 
     <EditFormContent>
-        @if (!Context.AddEditModal.IsCreate)
+        @if (Context.AddEditModal.IsCreate==false)
         {
             <MudItem xs="12" md="6">
                 <MudTextField Value="context.Id" ReadOnly DisableUnderLine Label="@L[$"Game Id"]" />
