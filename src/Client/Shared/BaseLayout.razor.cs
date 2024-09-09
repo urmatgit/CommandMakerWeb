@@ -1,11 +1,18 @@
-﻿using FSH.BlazorWebAssembly.Client.Infrastructure.Preferences;
+﻿using FSH.BlazorWebAssembly.Client.Infrastructure.Notifications;
+using FSH.BlazorWebAssembly.Client.Infrastructure.Preferences;
 using FSH.BlazorWebAssembly.Client.Infrastructure.Theme;
+using FSH.WebApi.Shared.Notifications;
+using MediatR.Courier;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace FSH.BlazorWebAssembly.Client.Shared;
 
 public partial class BaseLayout
 {
+
+    [Inject]
+    private ICourier Courier { get; set; } = default!;
     private ClientPreference? _themePreference;
     private MudTheme _currentTheme = new LightTheme();
     private bool _themeDrawerOpen;
@@ -28,6 +35,11 @@ public partial class BaseLayout
                 Navigation.NavigateTo("https://github.com/fullstackhero/blazor-wasm-boilerplate");
                 return Task.CompletedTask;
             };
+        });
+        Courier.SubscribeWeak<NotificationWrapper<BasicNotification>>(async _ =>
+        {
+            Snackbar.Add(_.Notification.Message,(Severity)_.Notification.Label);
+            StateHasChanged();
         });
     }
 
