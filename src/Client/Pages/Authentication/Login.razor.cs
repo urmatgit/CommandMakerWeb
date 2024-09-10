@@ -59,7 +59,7 @@ public partial class Login
 
     private void FillAdministratorCredentials()
     {
-        _tokenRequest.Email = MultitenancyConstants.Root.EmailAddress;
+        _tokenRequest.Username = MultitenancyConstants.Root.EmailAddress;
         _tokenRequest.Password = MultitenancyConstants.DefaultPassword;
         TenantId = MultitenancyConstants.Root.Id;
     }
@@ -73,7 +73,7 @@ public partial class Login
             Snackbar,
             _customValidation))
         {
-            Snackbar.Add($"Logged in as {_tokenRequest.Email}", Severity.Info);
+            Snackbar.Add($"Logged in as {_tokenRequest.Username}", Severity.Info);
         }
 
         BusySubmitting = false;

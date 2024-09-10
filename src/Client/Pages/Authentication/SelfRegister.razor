@@ -37,6 +37,11 @@
                                   InputType="InputType.Text" Adornment="Adornment.End" />
                 </MudItem>
                 <MudItem xs="12" md="12">
+                    <MudTextField T="string" Label="Phone number" Variant="Variant.Outlined"
+                                  @bind-Value="_createUserRequest.PhoneNumber" For="@(() => _createUserRequest.PhoneNumber)"
+                                  InputType="InputType.Telephone" Adornment="Adornment.End" />
+                </MudItem>
+                <MudItem xs="12" md="12">
                     <MudTextField T="string" Label="E-mail" Variant="Variant.Outlined"
                                   @bind-Value="_createUserRequest.Email" For="@(() => _createUserRequest.Email)"
                                   InputType="InputType.Email" Adornment="Adornment.End" />

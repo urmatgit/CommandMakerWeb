@@ -17,8 +17,8 @@
         <DataAnnotationsValidator />
         <CustomValidation @ref="_customValidation" />
         <MudItem xs="12">
-            <MudTextField T="string" Label="@L["E-mail"]" Variant="Variant.Outlined" @bind-Value="_tokenRequest.Email"
-                For="@(() => _tokenRequest.Email)" />
+            <MudTextField T="string" Label="@L["Phone or E-mail"]" Variant="Variant.Outlined" @bind-Value="_tokenRequest.Username"
+                For="@(() => _tokenRequest.Username)" />
         </MudItem>
         <MudItem xs="12">
             <MudTextField Label="@L["Password"]" Variant="Variant.Outlined" @bind-Value="_tokenRequest.Password"
