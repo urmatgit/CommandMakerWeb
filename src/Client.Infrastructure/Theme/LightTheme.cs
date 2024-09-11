@@ -6,7 +6,7 @@ public class LightTheme : MudTheme
 {
     public LightTheme()
     {
-        Palette = new Palette()
+        PaletteLight = new PaletteLight()
         {
             Primary = CustomColors.Light.Primary,
             Secondary = CustomColors.Light.Secondary,

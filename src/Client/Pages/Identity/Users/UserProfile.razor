@@ -24,8 +24,8 @@ else
                         </MudCardHeader>
                         <MudCardContent Class="pa-46" Style="padding:26px!important">
                             <MudGrid>
-                                <MudSwitch @bind-Checked="@_active" Color="Color.Primary" Label="@_localizer["Active?"]"></MudSwitch>
-                                <MudCheckBox ReadOnly @bind-Checked="@_emailConfirmed" Disabled Label="@_localizer["Email Confirmed?"]" Color="Color.Secondary">
+                                <MudSwitch T="bool" @bind-Checked="@_active" Color="Color.Primary" Label="@_localizer["Active?"]"></MudSwitch>
+                                <MudCheckBox T="bool" ReadOnly @bind-Checked="@_emailConfirmed" Disabled Label="@_localizer["Email Confirmed?"]" Color="Color.Secondary">
                                     </MudCheckBox>
                                 <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"
                             OnClick="ToggleUserStatus" ButtonType="ButtonType.Submit">@_localizer["Save Changes"]
@@ -58,7 +58,7 @@ else
                         @if (!string.IsNullOrEmpty(_imageUrl))
                         {
                             <MudButton HtmlTag="label" DisableElevation Variant="Variant.Filled" Color="Color.Info"
-                        Size="Size.Small" Target="_blank" StartIcon="@Icons.Filled.RemoveRedEye" Link="@_imageUrl"
+                        Size="Size.Small" Target="_blank" StartIcon="@Icons.Material.Filled.RemoveRedEye" Link="@_imageUrl"
                         Style="margin-left: 5px;">
                                 @_localizer["View"]
                             </MudButton>

@@ -5,32 +5,33 @@
 <MudNavMenu>
     <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="ml-4 my-3">@L["Start"]</MudText>
     <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">@L["Home"]</MudNavLink>
-    <MudNavLink Href="https://fullstackhero.net/basics/getting-started/" Match="NavLinkMatch.All" Target="_blank"
-        Icon="@Icons.Material.Filled.RocketLaunch">@L["Getting Started"]</MudNavLink>
-    @if (_canViewHangfire)
+    
+    @if (_canViewHangfire && CanViewAdministrationGroup)
     {
         <MudNavLink Href="@_hangfireUrl" Match="NavLinkMatch.All" Target="_blank" Icon="@Icons.Material.Filled.Work">@L["Hangfire"]</MudNavLink>
     }
     <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="ml-4 my-3">@L["Personal"]</MudText>
     @if (_canViewDashboard)
     {
-        <MudNavLink Href="/dashboard" Match="NavLinkMatch.All" Icon="@Icons.Filled.Dashboard">@L["Dashboard"]</MudNavLink>
+        <MudNavLink Href="/dashboard" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">@L["Dashboard"]</MudNavLink>
     }
-    <MudNavLink Href="/account" Icon="@Icons.Filled.ManageAccounts">@L["Account"]</MudNavLink>
+    <MudNavLink Href="/account" Icon="@Icons.Material.Filled.ManageAccounts">@L["Account"]</MudNavLink>
+    @if (CanViewAdministrationGroup){
     <MudNavLink Href="/audit-logs" Icon="@Icons.Material.Filled.SecurityUpdateGood">@L["Logs"]</MudNavLink>
+    }
     @if (_canViewTeams || _canViewGames)
     {
         <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="ml-4 my-3">@L["Management"]</MudText>
-        <MudNavGroup Title="@L["Catalog"]" Expanded Icon="@Icons.Filled.AddBox">
+        <MudNavGroup Title="@L["Catalog"]" Expanded Icon="@Icons.Material.Filled.AddBox">
             @if (_canViewTeams)
             {
-                <MudNavLink Href="/catalog/teams" Icon="@Icons.Filled.ShoppingBag" Class="fsh-nav-child">
+                <MudNavLink Href="/catalog/teams" Icon="@Icons.Material.Filled.ShoppingBag" Class="fsh-nav-child">
                     @L["Teams"]
                 </MudNavLink>
             }
             @if (_canViewGames)
             {
-                <MudNavLink Href="/catalog/games" Icon="@Icons.Filled.ShoppingBag" Class="fsh-nav-child">
+                <MudNavLink Href="/catalog/games" Icon="@Icons.Material.Filled.ShoppingBag" Class="fsh-nav-child">
                     @L["Games"]
                 </MudNavLink>
             }
@@ -49,7 +50,7 @@
         }
         @if(_canViewTenants)
         {
-            <MudNavLink Href="/tenants" Icon="@Icons.Filled.GroupWork" Disabled="!_canViewTenants">@L["Tenants"]</MudNavLink>
+            <MudNavLink Href="/tenants" Icon="@Icons.Material.Filled.GroupWork" Disabled="!_canViewTenants">@L["Tenants"]</MudNavLink>
         }
     }
 </MudNavMenu>

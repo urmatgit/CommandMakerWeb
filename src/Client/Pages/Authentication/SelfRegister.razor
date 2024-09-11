@@ -36,6 +36,14 @@
                                   @bind-Value="_createUserRequest.UserName" For="@(() => _createUserRequest.UserName)"
                                   InputType="InputType.Text" Adornment="Adornment.End" />
                 </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudDatePicker For="@(() => _createUserRequest.BirthDate)" @bind-Date="_createUserRequest.BirthDate"
+                                   Variant="Variant.Outlined" Adornment="Adornment.End"
+                                   DateFormat="dd.MM.yyyy" Label="@L["Birth date"]" />
+                    @* <MudTextField T="string" Label="Last Name" Variant="Variant.Outlined"
+                    @bind-Value="_createUserRequest.LastName" For="@(() => _createUserRequest.LastName)"
+                    InputType="InputType.Text" Adornment="Adornment.End" /> *@
+                </MudItem>
                 <MudItem xs="12" md="12">
                     <MudTextField T="string" Label="Phone number" Variant="Variant.Outlined"
                                   @bind-Value="_createUserRequest.PhoneNumber" For="@(() => _createUserRequest.PhoneNumber)"
@@ -47,18 +55,6 @@
                                   InputType="InputType.Email" Adornment="Adornment.End" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="string" Label="First Name" Variant="Variant.Outlined"
-                                  @bind-Value="_createUserRequest.FirstName" For="@(() => _createUserRequest.FirstName)"
-                                  InputType="InputType.Text" Adornment="Adornment.End" />
-                </MudItem>
-                <MudItem xs="12" md="6">
-                    <MudTextField T="string" Label="Last Name" Variant="Variant.Outlined"
-                                  @bind-Value="_createUserRequest.LastName" For="@(() => _createUserRequest.LastName)"
-                                  InputType="InputType.Text" Adornment="Adornment.End" />
-                </MudItem>
-
-             
-                <MudItem xs="12" md="6">
                     <MudTextField Label="@L["Password"]" Variant="Variant.Outlined" @bind-Value="_createUserRequest.Password"
                                   For="@(() => _createUserRequest.Password)" InputType="@_passwordInput" Adornment="Adornment.End"
                                   AdornmentIcon="@_passwordInputIcon" OnAdornmentClick="TogglePasswordVisibility" />
@@ -68,10 +64,24 @@
                                   For="@(() => _createUserRequest.ConfirmPassword)" InputType="@_passwordInput" Adornment="Adornment.End"
                                   AdornmentIcon="@_passwordInputIcon" OnAdornmentClick="TogglePasswordVisibility" />
                 </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" Label="First Name" Variant="Variant.Outlined"
+                                  @bind-Value="_createUserRequest.FirstName" For="@(() => _createUserRequest.FirstName)"
+                                  InputType="InputType.Text" Adornment="Adornment.End" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" Label="Last Name" Variant="Variant.Outlined"
+                                  @bind-Value="_createUserRequest.LastName" For="@(() => _createUserRequest.LastName)"
+                                  InputType="InputType.Text" Adornment="Adornment.End" />
+                </MudItem>
+                
+
+             
+               
             </MudGrid>
         </MudCardContent>
         <MudCardActions Class="pb-4 pl-4">
-            <MudButton StartIcon="@Icons.Filled.AppRegistration" Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit" Disabled="BusySubmitting" Class="ml-auto">
+            <MudButton StartIcon="@Icons.Material.Filled.AppRegistration" Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit" Disabled="BusySubmitting" Class="ml-auto">
                 @L["Register"]
             </MudButton>
         </MudCardActions>

@@ -124,10 +124,12 @@ public partial class EntityTable<TEntity, TId, TRequest>
         }
     }
 
-    private Func<TableState, Task<TableData<TEntity>>>? ServerReloadFunc =>
+    private Func<TableState,CancellationToken, Task<TableData<TEntity>>>? ServerReloadFunc =>
         Context.IsServerContext ? ServerReload : null;
 
-    private async Task<TableData<TEntity>> ServerReload(TableState state)
+    
+
+    private async Task<TableData<TEntity>> ServerReload(TableState state, CancellationToken token)
     {
         if (!Loading && Context.ServerContext is not null)
         {
@@ -288,7 +290,7 @@ public partial class EntityTable<TEntity, TId, TRequest>
 
         var result = await dialog.Result;
 
-        if (!result.Cancelled)
+        if (!result.Canceled)
         {
             await ReloadDataAsync();
         }
@@ -304,10 +306,10 @@ public partial class EntityTable<TEntity, TId, TRequest>
         {
             { nameof(DeleteConfirmation.ContentText), string.Format(deleteContent, Context.EntityName, id) }
         };
-        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true ,BackdropClick = false };
         var dialog = DialogService.Show<DeleteConfirmation>(L["Delete"], parameters, options);
         var result = await dialog.Result;
-        if (!result.Cancelled)
+        if (!result.Canceled)
         {
             _ = Context.DeleteFunc ?? throw new InvalidOperationException("DeleteFunc can't be null!");
 

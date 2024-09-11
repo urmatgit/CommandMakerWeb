@@ -31,7 +31,7 @@ public partial class SelfRegister
             Snackbar,
             _customValidation);
 
-        if (sucessMessage != null)
+        if (!string.IsNullOrEmpty(sucessMessage))
         {
             Snackbar.Add(sucessMessage, Severity.Info);
             Navigation.NavigateTo("/login");

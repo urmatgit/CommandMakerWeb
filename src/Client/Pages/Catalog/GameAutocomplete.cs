@@ -48,7 +48,7 @@ public class GameAutocomplete : MudAutocomplete<Guid>
         }
     }
 
-    private async Task<IEnumerable<Guid>> SearchGames(string value)
+    private async Task<IEnumerable<Guid>> SearchGames(string value,CancellationToken token)
     {
         var filter = new SearchGamesRequest
         {
