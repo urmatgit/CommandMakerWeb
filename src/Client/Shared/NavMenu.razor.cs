@@ -19,9 +19,10 @@ public partial class NavMenu
     private bool _canViewDashboard;
     private bool _canViewRoles;
     private bool _canViewUsers;
+    private bool _canViewTenants;
     private bool _canViewTeams;
     private bool _canViewGames;
-    private bool _canViewTenants;
+    
     private bool CanViewAdministrationGroup => _canViewUsers || _canViewRoles || _canViewTenants;
 
     protected override async Task OnParametersSetAsync()

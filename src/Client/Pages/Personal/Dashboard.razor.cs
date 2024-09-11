@@ -1,10 +1,15 @@
 ﻿using System.Globalization;
 using FSH.BlazorWebAssembly.Client.Infrastructure.ApiClient;
+using FSH.BlazorWebAssembly.Client.Infrastructure.Auth;
 using FSH.BlazorWebAssembly.Client.Infrastructure.Notifications;
+using FSH.BlazorWebAssembly.Client.Pages.Identity.Users;
 using FSH.BlazorWebAssembly.Client.Shared;
+using FSH.WebApi.Shared.Authorization;
 using FSH.WebApi.Shared.Notifications;
 using MediatR.Courier;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace FSH.BlazorWebAssembly.Client.Pages.Personal;
 
@@ -21,15 +26,31 @@ public partial class Dashboard
     [Parameter]
     public int RoleCount { get; set; }
 
+    [CascadingParameter]
+    protected Task<AuthenticationState> AuthState { get; set; } = default!;
+
     [Inject]
     private IDashboardClient DashboardClient { get; set; } = default!;
     [Inject]
     private ICourier Courier { get; set; } = default!;
+    [Inject]
+    protected IAuthorizationService AuthService { get; set; } = default!;
 
     private readonly string[] _dataEnterBarChartXAxisLabels = DateTimeFormatInfo.CurrentInfo.AbbreviatedMonthNames;
     private readonly List<MudBlazor.ChartSeries> _dataEnterBarChartSeries = new();
     private bool _loaded;
-
+    private bool _canViewRoles;
+    private bool _canViewUsers;
+    private bool _canViewTenants;
+    private bool CanViewAdministrationGroup => _canViewUsers || _canViewRoles || _canViewTenants;
+    protected override async Task OnParametersSetAsync()
+    {
+        var user = (await AuthState).User;
+        _canViewRoles = await AuthService.HasPermissionAsync(user, FSHAction.View, FSHResource.Roles);
+        _canViewUsers = await AuthService.HasPermissionAsync(user, FSHAction.View, FSHResource.Users);
+        
+        _canViewTenants = await AuthService.HasPermissionAsync(user, FSHAction.View, FSHResource.Tenants);
+    }
     protected override async Task OnInitializedAsync()
     {
         Courier.SubscribeWeak<NotificationWrapper<StatsChangedNotification>>(async _ =>
