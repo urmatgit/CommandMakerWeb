@@ -1,6 +1,6 @@
 ﻿@inject IStringLocalizer<Games> L
-<AddEditModal RequestModel="GameDtoModel"   @ref="addeditModel"  IsCreate="@IsCreate" Title="@Caption">
-    <MudGrid>
+<AddEditModal RequestModel="GameDtoModel"   @ref="addeditModel"  IsCreate="@IsCreate" Title="@Caption" >
+    <MudGrid Class="ma-2">
         <MudItem xs="12" md="6">
             <MudTextField T="string" For="@(() => context.Name)" @bind-Value="context.Name" Label="@L["Name"]" />
         </MudItem>
