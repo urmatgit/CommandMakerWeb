@@ -31,7 +31,7 @@
                             CheckedChanged="Context.AllColumnsCheckChanged"></MudCheckBox>
                         @foreach (var field in Context.Fields)
                         {
-                            <MudCheckBox T="bool" @bind-Checked="@field.CheckedForSearch" Label="@(field.DisplayName)"></MudCheckBox>
+                            <MudCheckBox T="bool" @bind-Value="@field.CheckedForSearch" Label="@(field.DisplayName)"></MudCheckBox>
                         }
                     </div>
                 }
