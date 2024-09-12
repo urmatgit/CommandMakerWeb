@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
-<MudRTLProvider RightToLeft="@_rightToLeft">
-    <MudThemeProvider Theme="_currentTheme" />
+<MudRTLProvider   RightToLeft="@_rightToLeft">
+    <MudThemeProvider @bind-IsDarkMode="_isDarkMode" Theme="_currentTheme" />
     <MudDialogProvider />
     <MudSnackbarProvider />
     <MudPopoverProvider />

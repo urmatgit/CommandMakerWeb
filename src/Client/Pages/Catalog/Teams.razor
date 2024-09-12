@@ -70,7 +70,7 @@
     // private ISnackbar Snackbar { get; set; } = default!;
     private RenderFragment<TeamDto> GameLinkFieldTemplate => rate => __builder =>
             {
-                <MudLink  onclick="@(()=>OpenGameInfo(rate))" >@rate.GameName</MudLink>
+                 <MudLink  @onclick="@(()=> OpenGameInfo(rate))" >@rate.GameName</MudLink>
             };
     private async Task OpenGameInfo(TeamDto teamDto)
     {
@@ -85,8 +85,8 @@
             model = response;
         }
 
-
-        var result = await DialogService.ShowModalAsync<GameViewDialog>(new()
+        var options = new DialogOptions { CloseButton = true, MaxWidth=MaxWidth.Large, FullWidth = true, BackdropClick = false };
+        var result =   DialogService.ShowModal<GameViewDialog>(new()
         {
             
             { nameof(GameViewDialog.GameDtoModel), model },

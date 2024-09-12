@@ -17,7 +17,7 @@ public partial class BaseLayout
     private MudTheme _currentTheme = new LightTheme();
     private bool _themeDrawerOpen;
     private bool _rightToLeft;
-
+    private bool _isDarkMode;
     protected override async Task OnInitializedAsync()
     {
         _themePreference = await ClientPreferences.GetPreference() as ClientPreference;
@@ -51,6 +51,7 @@ public partial class BaseLayout
 
     private void SetCurrentTheme(ClientPreference themePreference)
     {
+        _isDarkMode = themePreference.IsDarkMode;
         _currentTheme = themePreference.IsDarkMode ? new DarkTheme() : new LightTheme();
         if (themePreference.IsDarkMode)
         {
