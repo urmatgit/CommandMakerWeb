@@ -1,7 +1,9 @@
 ﻿
+using FSH.BlazorWebAssembly.Client.Components.Dialogs;
 using FSH.BlazorWebAssembly.Client.Components.EntityTable;
 using FSH.BlazorWebAssembly.Client.Infrastructure.ApiClient;
 using FSH.BlazorWebAssembly.Client.Infrastructure.Auth;
+using FSH.BlazorWebAssembly.Client.Infrastructure.Common;
 using FSH.BlazorWebAssembly.Client.Shared;
 using FSH.WebApi.Shared.Authorization;
 using Mapster;
@@ -9,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
+using System.Security.Claims;
 using static MudBlazor.CategoryTypes;
 
 namespace FSH.BlazorWebAssembly.Client.Pages.Catalog;
@@ -16,6 +19,7 @@ public partial class Games
 {
     [CascadingParameter]
     protected Task<AuthenticationState> AuthState { get; set; } = default!;
+    
     [Inject]
     protected IAuthorizationService AuthService { get; set; } = default!;
 
@@ -60,5 +64,66 @@ public partial class Games
         snack.Add("Open game dialg", Severity.Info);
         Context.AddEditModal.ForceRender();
     }
-    
+    private async Task PlayerGame(GameDto gameDto)
+    {
+        if (gameDto.CurrentUserIn)
+        {
+
+            RemoveFromGame(gameDto);
+        }
+        else AddToGame(gameDto);
+    }
+    private  async Task AddToGame(GameDto gameid)
+    {
+        if ((await AuthState).User is { } user)
+        {
+            var id = user.GetUserId();
+            
+            if (await ApiHelper.ExecuteCallGuardedAsync(
+                () => GamesClient.AddPlayerAsync(new AddPlayerRequest() { GameId=gameid.Id,UserId=new Guid(id)}) , Snackbar)
+            is Guid playerid)
+            {
+                if (playerid == Guid.Empty)
+                {
+                    Snackbar.Add($"{L["Player added"]}", Severity.Info);
+                    gameid.CurrentUserIn = true;
+                }
+            }
+        }
+        
+    }
+    public async Task RemoveFromGame(GameDto gameDto)
+    {
+        string deleteContent = L["You're sure you want to leave this game?"];
+        var parameters = new DialogParameters
+        {
+            { nameof(LeaveGameConfirmation.ContentText), deleteContent }
+        };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, BackdropClick = false };
+        var dialog = DialogService.Show<DeleteConfirmation>(L["Leave"], parameters, options);
+        var result = await dialog.Result;
+        if (!result.Canceled)
+        {
+            if ((await AuthState).User is { } user)
+            {
+                var id = user.GetUserId();
+                if (await ApiHelper.ExecuteCallGuardedAsync(
+                    () => GamesClient.RemovePlayerAsync(new RemovePlayerRequest() { GameId = gameDto.Id, UserId = new Guid(id) }), Snackbar)
+                is Guid playerid)
+                {
+                    if (playerid != Guid.Empty)
+                    {
+                        Snackbar.Add($"{L["Player removed"]}", Severity.Info);
+                        gameDto.CurrentUserIn = false;
+                    }
+                }
+
+            }
+        }
+    }
+
+     
+
+
+
 }

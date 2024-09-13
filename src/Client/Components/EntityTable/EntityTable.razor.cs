@@ -20,6 +20,8 @@ public partial class EntityTable<TEntity, TId, TRequest>
 
     [Parameter]
     public bool Loading { get; set; }
+    [Parameter]
+    public bool? AdminGroup { get; set; }
 
     [Parameter]
     public string? SearchString { get; set; }
@@ -79,6 +81,7 @@ public partial class EntityTable<TEntity, TId, TRequest>
             (Context.EntityResource is { } resource && await AuthService.HasPermissionAsync(state.User, action, resource)));
 
     public bool HasActions => _canUpdate || _canDelete || (Context.HasExtraActionsFunc is not null && Context.HasExtraActionsFunc());
+    
     private bool CanUpdateEntity(TEntity entity) => _canUpdate && (Context.CanUpdateEntityFunc is null || Context.CanUpdateEntityFunc(entity));
     private bool CanDeleteEntity(TEntity entity) => _canDelete && (Context.CanDeleteEntityFunc is null || Context.CanDeleteEntityFunc(entity));
 

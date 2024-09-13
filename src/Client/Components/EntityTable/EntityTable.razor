@@ -115,7 +115,7 @@
                     {
                         @ActionsContent(context)
                     }
-                    else if (HasActions)
+                    else if (HasActions && (AdminGroup is null || AdminGroup==true))
                     {
                         <MudMenu Label="@L["Actions"]" Variant="Variant.Filled" DisableElevation="true"
                             EndIcon="@Icons.Material.Filled.KeyboardArrowDown" IconColor="Color.Secondary" Direction="Direction.Left"
@@ -130,11 +130,19 @@
                             }
                             @if (ExtraActions is not null)
                             {
+                                
                                 @ExtraActions(context)
                             }
                         </MudMenu>
-                    }
-                    else
+                    } 
+                    else  if (AdminGroup==false)
+                    {
+                        @if (ExtraActions is not null)
+                        {
+
+                            @ExtraActions(context)
+                        }
+                    }else 
                     {
                         <MudButton Variant="Variant.Filled" DisableElevation="true"
                             StartIcon="@Icons.Material.Filled.DoNotTouch" IconColor="Color.Secondary" Size="Size.Small"
