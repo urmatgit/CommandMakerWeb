@@ -6,7 +6,7 @@
 
 <FshTitle Title="@L["Games"]" Description="@L["Manage Games."]" />
 
-<EntityTable TEntity="GameDto" TId="Guid" TRequest="UpdateGameRequest" Context="@Context" AdminGroup="@CanViewAdministrationGroup">
+<EntityTable @ref="_table" TEntity="GameDto" TId="Guid" TRequest="UpdateGameRequest" Context="@Context" AdminGroup="@CanViewAdministrationGroup">
 
     <EditFormContent>
         @if (Context.AddEditModal.IsCreate==false)
@@ -34,7 +34,9 @@
     <ExtraActions>
             
             <MudButton Variant="Variant.Filled" DisableElevation="true" IconColor="Color.Secondary" OnClick="@(()=>PlayerGame(context))">
+                <MudText>
                 @(!context.CurrentUserIn ? L["Add to the game"] : L["Leave  the game"])
+            </MudText>
             </MudButton>
         
 

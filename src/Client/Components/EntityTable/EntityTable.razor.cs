@@ -58,6 +58,8 @@ public partial class EntityTable<TEntity, TId, TRequest>
     private IEnumerable<TEntity>? _entityList;
     private int _totalItems;
 
+    
+
     protected override async Task OnInitializedAsync()
     {
         var state = await AuthState;
@@ -74,6 +76,10 @@ public partial class EntityTable<TEntity, TId, TRequest>
         Context.IsClientContext
             ? LocalLoadDataAsync()
             : ServerLoadDataAsync();
+    public IEnumerable<T>? GeList<T>()
+    {
+        return (IEnumerable<T>)_entityList;
+    }
 
     private async Task<bool> CanDoActionAsync(string? action, AuthenticationState state) =>
         !string.IsNullOrWhiteSpace(action) &&

@@ -23,6 +23,7 @@ public partial class Games
     [Inject]
     protected IAuthorizationService AuthService { get; set; } = default!;
 
+    
     private bool _canViewRoles;
     private bool _canViewUsers;
     private bool _canViewTenants;
@@ -36,6 +37,7 @@ public partial class Games
         _canViewTenants = await AuthService.HasPermissionAsync(user, FSHAction.View, FSHResource.Tenants);
     }
     protected EntityServerTableContext<GameDto, Guid, UpdateGameRequest> Context { get; set; } = default!;
+    private EntityTable<GameDto, Guid, UpdateGameRequest> _table = default!;
     protected override void OnInitialized() =>
 
         Context = new(
@@ -83,10 +85,19 @@ public partial class Games
                 () => GamesClient.AddPlayerAsync(new AddPlayerRequest() { GameId=gameid.Id,UserId=new Guid(id)}) , Snackbar)
             is Guid playerid)
             {
-                if (playerid == Guid.Empty)
+                if (playerid != Guid.Empty)
                 {
                     Snackbar.Add($"{L["Player added"]}", Severity.Info);
                     gameid.CurrentUserIn = true;
+                            this.StateHasChanged();
+                    //var list = _table.GeList<GameDto>();
+                    //if (list != null && list.Count() > 0) {
+                    //    var current=list.First(x=>x.Id==gameid.Id);
+                    //    if (current != null) {
+                    //        current.CurrentUserIn = true;
+                    //        this.StateHasChanged();
+                    //    }
+                    //}
                 }
             }
         }
@@ -115,6 +126,18 @@ public partial class Games
                     {
                         Snackbar.Add($"{L["Player removed"]}", Severity.Info);
                         gameDto.CurrentUserIn = false;
+                        this.StateHasChanged();
+                        //var list = _table.GeList<GameDto>();
+                        //if (list != null && list.Count() > 0)
+                        //{
+                        //    var current = list.First(x => x.Id == gameDto.Id);
+                        //    if (current != null)
+                        //    {
+                                
+                        //        current.CurrentUserIn = false;
+                        //        this.StateHasChanged();
+                        //    }
+                        //}
                     }
                 }
 
